@@ -13,7 +13,9 @@ import {
   Container,
   Slide,
   CardMedia,
-  ClickAwayListener
+  ClickAwayListener,
+  TextField,
+  InputAdornment
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/Search'
@@ -22,7 +24,7 @@ import Brightness4Icon from '@material-ui/icons/Brightness4' // moon
 import TranslateIcon from '@material-ui/icons/Translate'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import logo from '../../assets/icons/logo.svg'
-import MenuSetting from './shared/MenuSetting'
+import FoodsCart from './shared/FoodsCart'
 import {
   toggleMode,
   handleChangeLanguage
@@ -35,6 +37,23 @@ const withStyles = makeStyles((theme) => ({
   },
   MuiAppBarDark: {
     backgroundColor: theme.palette.primary.dark
+  },
+  languageBtn: {
+    minWidth: theme.spacing(10)
+  },
+  searchTextField: {
+    maxWidth: 200,
+    '& .MuiOutlinedInput-root': {
+      border: theme.palette.primary.light + ' 1px solid',
+      color: theme.palette.primary.light
+    },
+    '& .MuiOutlinedInput-input': {
+      padding: '8.5px 14px',
+      paddingLeft: 0
+    },
+    '& .MuiOutlinedInput-adornedStart': {
+      paddingLeft: '6px'
+    }
   }
 }))
 
@@ -64,14 +83,14 @@ HideOnScroll.propTypes = {
 export default function HideAppBar(props) {
   const classes = withStyles()
   const dispatch = useDispatch()
-  const { setting } = useSelector(state => state)
+  const { translation, isLight, language } = useSelector(state => state.setting)
   const [state, setState] = useState({
     isSetting: false,
     isCart: false,
     isSearch: false
   })
-  const Icon = setting.isLight ? Brightness7Icon : Brightness4Icon
-  const appBarClassName = !setting.isLight ? classes.MuiAppBarDark : ''
+  const Icon = isLight ? Brightness7Icon : Brightness4Icon
+  const appBarClassName = !isLight ? classes.MuiAppBarDark : ''
 
   return (
     <React.Fragment>
@@ -82,7 +101,18 @@ export default function HideAppBar(props) {
             <CardMedia component='img' src={logo} className={classes.MuiCardMedia}/>
             <Typography variant="h6">React Redux</Typography>
             <Box flexGrow={1}/>
-            <IconButton><SearchIcon htmlColor="#fff"/></IconButton>
+            <TextField
+              variant='outlined'
+              className={classes.searchTextField}
+              placeholder={translation.placeholderSearch}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon htmlColor="#fff" />
+                  </InputAdornment>
+                ),
+              }}
+            />
             <ClickAwayListener onClickAway={() => setState(prev => ({ ...prev, isSetting: false }))}>
               <Box position="relative">
                 <IconButton
@@ -90,22 +120,23 @@ export default function HideAppBar(props) {
                 >
                   <ShoppingCartIcon htmlColor="#fff"/>
                 </IconButton>
-                <MenuSetting
+                <FoodsCart
                   open={state.isSetting}
                   onClose={() => setState(prev => ({ ...prev, isSetting: false }))}
                 />
               </Box>
             </ClickAwayListener>
             <Button
-              onClick={() => dispatch(handleChangeLanguage(setting.language === 'en' ? 'vi' : 'en'))}
+              onClick={() => dispatch(handleChangeLanguage(language === 'en' ? 'vi' : 'en'))}
               startIcon={<TranslateIcon />}
               variant="outlined"
               color="inherit"
+              className={classes.languageBtn}
             >
-              {setting.language}
+              {language}
             </Button>
             <IconButton
-              onClick={() => dispatch(toggleMode(!setting.isLight))}
+              onClick={() => dispatch(toggleMode(!isLight))}
             >
               <Icon htmlColor="#fff"/>
             </IconButton>

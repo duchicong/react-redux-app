@@ -20,7 +20,7 @@ const withStyles = makeStyles(() => ({
   }
 }))
 
-const MenuSetting = (props) => {
+const FoodsCart = (props) => {
   const { open, onClose, ...rest } = props
   const classes = withStyles()
   const { setting } = useSelector(state => state)
@@ -37,32 +37,19 @@ const MenuSetting = (props) => {
       {...rest}
     >
       <List dense>
-        <ListItem component='li'>
-          {/* {LANGUAGE.EN}
-          <Switch
-            checked={!(setting.language === 'en')}
-            onChange={(e) => dispatch(handleChangeLanguage(e.target.value))}
-            value={setting.language === 'en' ? 'vi' : 'en'}
-            inputProps={{ 'aria-label': 'secondary checkbox' }}
-          />
-          {LANGUAGE.VI} */}
-        </ListItem>
-        <ListItem component='li'>
-          {/* <IconButton
-            onClick={() => dispatch(toggleMode(!setting.isLight))}
-          >
-            <Icon />
-          </IconButton>
-          {label} */}
-        </ListItem>
+        {[1,2,3,4,5].map((item) => (
+          <ListItem key={item} component='li'>
+          Food {item}
+          </ListItem>
+        ))}
       </List>
     </Box>
   )
 }
 
-MenuSetting.propTypes = {
+FoodsCart.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func
 }
 
-export default MenuSetting
+export default FoodsCart

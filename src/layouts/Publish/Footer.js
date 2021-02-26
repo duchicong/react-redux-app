@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import clsx from 'clsx'
 import {
   Box,
   Container,
@@ -8,11 +9,6 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import logo from '../../assets/icons/logo.svg'
-import {
-  NAME_APP,
-  DESCRIPTION_APP,
-  COPYRIGHT
-} from '../../constant'
 
 const withStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +18,9 @@ const withStyles = makeStyles((theme) => ({
     width: '100%',
     boxSizing: 'border-box',
     color: '#ebedf0'
+  },
+  darkTheme: {
+    backgroundColor: theme.palette.primary.dark
   },
   MuiBox: {
     position: 'absolute',
@@ -39,10 +38,10 @@ const withStyles = makeStyles((theme) => ({
 
 const Footer = () => {
   const classes = withStyles()
-  const { translation } = useSelector(state => state.setting)
+  const { translation, isLight } = useSelector(state => state.setting)
 
   return (
-    <footer className={classes.root}>
+    <footer className={clsx(classes.root, { [classes.darkTheme]: !isLight })}>
       <Box className={classes.MuiBox} />
       <Container maxWidth="xl" className={classes.MuiContainer}>
         <Grid container alignContent="space-between" spacing={3}>

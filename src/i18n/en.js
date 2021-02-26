@@ -10,7 +10,8 @@ const en = {
   language: {
     en: 'English',
     vi: 'Vietnamese'
-  }
+  },
+  placeholderSearch: 'Search'
 }
 
 export default en
