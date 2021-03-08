@@ -11,7 +11,22 @@ const en = {
     en: 'English',
     vi: 'Vietnamese'
   },
-  placeholderSearch: 'Search'
+  placeholderSearch: 'Search',
+
+  // Define label
+  createFood: 'Create new Food',
+
+  // Define Feild
+  fields: {
+    name: 'Fill name',
+    description: 'Fill description',
+    price: 'Fill Price'
+  },
+
+  // Define button label
+  buttons: {
+    submit: 'Submit'
+  }
 }
 
 export default en

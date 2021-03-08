@@ -10,6 +10,22 @@ const vi = {
   language: {
     en: 'Tiếng Anh',
     vi: 'Tiếng Việt'
+  },
+  placeholderSearch: 'Tìm kiếm...',
+
+  // Define label
+  createFood: 'Thêm mới thực đơn',
+
+  // Define Feild
+  fields: {
+    name: 'Nhập tên',
+    description: 'Nhập miêu tả',
+    price: 'Nhập giá'
+  },
+
+  // Define button label
+  buttons: {
+    submit: 'Đồng ý'
   }
 }
 
