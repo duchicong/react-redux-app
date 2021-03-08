@@ -9,6 +9,7 @@ import {
   makeStyles, withStyles
 } from '@material-ui/core/styles'
 import NumberFormat from '../../components/NumberFormat'
+import axios from '../../utils/axios'
 
 const MuiTextField = withStyles({
   root: {
@@ -50,7 +51,6 @@ const Create = () => {
   })
 
   const handleChange = React.useCallback((e) => {
-    e.persist()
     setFormState(prev => ({
       ...prev,
       values: {
@@ -64,6 +64,16 @@ const Create = () => {
     }))
   }, [])
   console.log(formState)
+  const createFoodHandler = () => {
+    axios({
+      method: 'post',
+      url: '/foods.json',
+      data: formState.values
+    })
+      .then(res => console.log(res))
+      .catch(err => console.log(err.response))
+  }
+
   return (
     <div className="Create-form">
       <Grid container spacing={2}>
@@ -104,7 +114,7 @@ const Create = () => {
         </Grid>
       </Grid>
       
-      <Button className={classes.MuiButton} variant="contained" color="secondary">{translation.buttons.submit}</Button>
+      <Button className={classes.MuiButton} variant="contained" color="secondary" onClick={createFoodHandler}>{translation.buttons.submit}</Button>
     </div>
   )
 }
