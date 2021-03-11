@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect, useRef } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import validate from 'validate.js'
 import {
   TextField,
   Button,
@@ -9,7 +10,9 @@ import {
   makeStyles, withStyles
 } from '@material-ui/core/styles'
 import NumberFormat from '../../components/NumberFormat'
-import axios from '../../utils/axios'
+import axios from '../../utils/API'
+import constraints from './constraints'
+import { addFood } from '../../actions/foods'
 
 const MuiTextField = withStyles({
   root: {
@@ -42,16 +45,19 @@ const useStyles = makeStyles((theme) => ({
 
 const Create = () => {
   const classes = useStyles()
+  const typingRef = useRef(null)
+  const dispatch = useDispatch()
   const { translation } = useSelector(state => state.setting)
   const [formState, setFormState] = useState({
     values: null,
     errors: {},
-    valid: true,
+    valid: false,
     tourch: {}
   })
 
   const handleChange = React.useCallback((e) => {
-    setFormState(prev => ({
+    if (typingRef.current) clearTimeout(typingRef.current)
+    typingRef.current = setTimeout(() => setFormState(prev => ({
       ...prev,
       values: {
         ...prev.values,
@@ -61,52 +67,92 @@ const Create = () => {
         ...prev.tourch,
         [e.target.name]: true
       }
-    }))
+    })), 300)
   }, [])
-  console.log(formState)
+
   const createFoodHandler = () => {
     axios({
       method: 'post',
       url: '/foods.json',
       data: formState.values
     })
-      .then(res => console.log(res))
+      .then(() => dispatch(addFood(formState.values)))
       .catch(err => console.log(err.response))
+      .finally(() => {
+        setFormState(prev => ({
+          ...prev,
+          tourch: {},
+          values: null,
+          valid: false
+        }))
+        document.getElementById('name').value = ""
+        document.getElementById('description').value = ""
+        document.getElementById('price').value = ""
+      })
   }
+
+  const hasError = (fieldName) => !!(formState.errors[fieldName] && formState.tourch[fieldName])
+
+  const hasHelperText = (fieldName) => {
+    return hasError(fieldName) ? formState.errors[fieldName] : ''
+  }
+
+  useEffect(() => {
+    const errors = validate(formState.values, constraints(translation.validate))
+
+    setFormState(prev => ({
+      ...prev,
+      errors: errors || {},
+      valid: !errors
+    }))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formState.values])
 
   return (
     <div className="Create-form">
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <MuiTextField
-            label={translation.fields.name}
+            placeholder={translation.placeholders.name}
+            ref={typingRef}
             onChange={handleChange}
             name="name"
             variant="outlined"
+            id="name"
+            error={hasError('name')}
+            helperText={hasHelperText('name')}
             required
             fullWidth
           />
         </Grid>
         <Grid item xs={6}>
           <MuiTextField
-            label={translation.fields.price}
+            placeholder={translation.placeholders.price}
+            ref={typingRef}
             onChange={handleChange}
             name="price"
             variant="outlined"
+            id="price"
             InputProps={{
               inputComponent: NumberFormat,
             }}
+            error={hasError('price')}
+            helperText={hasHelperText('price')}
             required
             fullWidth
           />
         </Grid>
         <Grid item xs={12}>
           <MuiTextField
-            label={translation.fields.description}
+            placeholder={translation.placeholders.description}
+            ref={typingRef}
             onChange={handleChange}
             name="description"
+            id="description"
             variant="outlined"
             rows={2}
+            error={hasError('description')}
+            helperText={hasHelperText('description')}
             multiline
             required
             fullWidth
@@ -114,7 +160,13 @@ const Create = () => {
         </Grid>
       </Grid>
       
-      <Button className={classes.MuiButton} variant="contained" color="secondary" onClick={createFoodHandler}>{translation.buttons.submit}</Button>
+      <Button
+        className={classes.MuiButton}
+        variant="contained"
+        color="secondary"
+        onClick={createFoodHandler}
+        disabled={!formState.valid}
+      >{translation.buttons.submit}</Button>
     </div>
   )
 }

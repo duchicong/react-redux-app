@@ -1,13 +1,23 @@
-const Foods = () => {
-  return [
-    {
-      id: 1,
-      name: "cream Tea",
-      description: "This is a cup of cream tea",
-      imageUrl: "https://post.healthline.com/wp-content/uploads/2020/09/healthy-eating-ingredients-1200x628-facebook-1200x628.jpg",
-      created_at: "2017-08-09T01:38:10"
-    }
-  ]
-}
+import {
+  GET_FOOD,
+  ADD_FOOD,
+  REMOVE_FOOD
+} from '../actions/actionTypes'
 
-export default Foods
+function foodsReducer(state = [], action) {
+  switch (action.type) {
+    case GET_FOOD:
+      return [...action.payload]
+    case ADD_FOOD:
+      return [
+        ...state,
+        action.payload
+      ]
+    case REMOVE_FOOD:
+      state = state.filter(item => item.id !== action.payload)
+      return state
+    default:
+      return state;
+  }
+}
+export default foodsReducer
