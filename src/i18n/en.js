@@ -15,9 +15,18 @@ const en = {
 
   // Define label
   createFood: 'Create new Food',
+  addToCard: 'Add to card',
+  deleteProduct: 'Delete',
 
-  // Define Feild
-  fields: {
+  // Define feilds
+  labelFields: {
+    name: 'Name',
+    description: 'Description',
+    price: 'Price'
+  },
+
+  // Define placeholders
+  placeholders: {
     name: 'Fill name',
     description: 'Fill description',
     price: 'Fill Price'
@@ -26,6 +35,13 @@ const en = {
   // Define button label
   buttons: {
     submit: 'Submit'
+  },
+
+  // define validate
+  validate: {
+    presence: {
+      message: 'is required!'
+    }
   }
 }
 
