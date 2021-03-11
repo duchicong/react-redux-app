@@ -34,7 +34,9 @@ const en = {
 
   // Define button label
   buttons: {
-    submit: 'Submit'
+    submit: 'Submit',
+    close: 'Close',
+    ok: 'Ok'
   },
 
   // define validate
@@ -42,7 +44,18 @@ const en = {
     presence: {
       message: 'is required!'
     }
-  }
+  },
+
+  register: {
+    title: 'Create new Account',
+    redirect: 'You have an account, go to login?'
+  },
+  
+  login: {
+    title: 'Login',
+    redirect: 'Register account at here?'
+  },
+
 }
 
 export default en
