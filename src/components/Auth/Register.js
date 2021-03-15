@@ -9,7 +9,7 @@ import {
   TextField
 } from '@material-ui/core'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
-import axios from '../../utils/API'
+import axios from '../../utils/authAPI'
 import constraints from './constraintsRegiser'
 
 const MuiTextField = withStyles((theme) => ({
@@ -62,11 +62,10 @@ function Register () {
     })), 300)
   }, [])
 
-  const createFoodHandler = () => {
+  const registerHandler = () => {
     axios({
       method: 'post',
-      url: '/foods.json',
-      data: formState.values
+      data: { ...formState.values, returnSecureToken: true }
     })
       .then((res) => console.log(res))
       .catch(err => console.log(err.response))
@@ -96,38 +95,11 @@ function Register () {
     }))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formState.values])
-  console.log('formState ', formState)
 
   return (
     <div className={clsx("register-form", classes.root)}>
-      <Box display="grid" gridTemplateColumns="1fr 1fr" gridColumnGap={16}>
-        <MuiTextField
-          label="User name"
-          variant="outlined"
-          size="small"
-          onChange={handleChange}
-          ref={typingRef}
-          name="userName"
-          error={hasError('userName')}
-          helperText={hasHelperText('userName')}
-          fullWidth
-          required
-        />
-        <MuiTextField
-          label="Number Phone"
-          variant="outlined"
-          size="small"
-          onChange={handleChange}
-          ref={typingRef}
-          name="phone"
-          error={hasError('phone')}
-          helperText={hasHelperText('phone')}
-          fullWidth
-          required
-        />
-      </Box>
       <MuiTextField
-        label="Email"
+        label={translation.placeholders.email}
         variant="outlined"
         size="small"
         onChange={handleChange}
@@ -139,11 +111,12 @@ function Register () {
         required
       />
       <MuiTextField
-        label="Password"
+        label={translation.placeholders.password}
         variant="outlined"
         size="small"
         onChange={handleChange}
         ref={typingRef}
+        type="password"
         name="password"
         error={hasError('password')}
         helperText={hasHelperText('password')}
@@ -151,12 +124,12 @@ function Register () {
         required
       />
       <MuiButton
-        onClick={createFoodHandler}
+        onClick={registerHandler}
         variant="contained"
         color="primary"
         disabled={!formState.valid}
       >
-        Create Now
+        {translation.createButton}
       </MuiButton>
     </div>
   )

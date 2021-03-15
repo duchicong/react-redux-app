@@ -61,11 +61,10 @@ function Login () {
     })), 300)
   }, [])
 
-  const createFoodHandler = () => {
+  const loginHandler = () => {
     axios({
       method: 'post',
-      url: '/auth',
-      data: formState.values
+      data: { ...formState.values, returnSecureToken: true }
     })
       .then((res) => console.log(res))
       .catch(err => console.log(err.response))
@@ -95,11 +94,11 @@ function Login () {
     }))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formState.values])
-  console.log('formState ', formState)
+
   return (
     <div className={clsx("Login-form", classes.root)}>
       <MuiTextField
-        label="Email"
+        label={translation.placeholders.email}
         variant="outlined"
         size="small"
         onChange={handleChange}
@@ -111,7 +110,7 @@ function Login () {
         required
       />
       <MuiTextField
-        label="Password"
+        label={translation.placeholders.password}
         variant="outlined"
         size="small"
         onChange={handleChange}
@@ -124,12 +123,12 @@ function Login () {
         required
       />
       <MuiButton
-        onClick={createFoodHandler}
+        onClick={loginHandler}
         variant="contained"
         color="primary"
         disabled={!formState.valid}
       >
-        Login Now
+        {translation.loginButton}
       </MuiButton>
     </div>
   )

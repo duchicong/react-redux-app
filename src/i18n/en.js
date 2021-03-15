@@ -29,7 +29,9 @@ const en = {
   placeholders: {
     name: 'Fill name',
     description: 'Fill description',
-    price: 'Fill Price'
+    price: 'Fill Price',
+    email: 'Email',
+    password: 'Password'
   },
 
   // Define button label
@@ -48,11 +50,13 @@ const en = {
 
   register: {
     title: 'Create new Account',
+    createButton: 'Create Now',
     redirect: 'You have an account, go to login?'
   },
   
   login: {
     title: 'Login',
+    loginButton: 'Login Now',
     redirect: 'Register account at here?'
   },
 
