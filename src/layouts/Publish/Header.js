@@ -23,12 +23,15 @@ import Brightness7Icon from '@material-ui/icons/Brightness7' // sun
 import Brightness4Icon from '@material-ui/icons/Brightness4' // moon
 import TranslateIcon from '@material-ui/icons/Translate'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+import PersonAddIcon from '@material-ui/icons/PersonAdd'
+import PersonIcon from '@material-ui/icons/Person'
 import logo from '../../assets/icons/logo.svg'
 import FoodsCart from './shared/FoodsCart'
 import {
   toggleMode,
   handleChangeLanguage
 } from '../../actions'
+import { DialogAuthentication } from '../../components/Dialogs'
 
 const withStyles = makeStyles((theme) => ({
   MuiCardMedia: {
@@ -140,6 +143,10 @@ export default function HideAppBar(props) {
             >
               <Icon htmlColor="#fff"/>
             </IconButton>
+            <IconButton>
+              <PersonAddIcon htmlColor="#fff"/>
+              <PersonIcon htmlColor="#fff"/>
+            </IconButton>
           </Toolbar>
         </AppBar>
       </HideOnScroll>
@@ -147,6 +154,7 @@ export default function HideAppBar(props) {
       <Container>
         {props.children}
       </Container>
+      <DialogAuthentication open={true}/>
     </React.Fragment>
   )
 }
