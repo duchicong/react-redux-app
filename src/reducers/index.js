@@ -1,3 +1,4 @@
+import authReducer from './auth'
 import statusReducer from './status'
 import Setting from './setting'
 import FoodsReducer from './foods'
@@ -6,6 +7,7 @@ import UsersReducer from './users'
 import {combineReducers} from 'redux'
 
 const allReducers = combineReducers({
+  auth: authReducer,
   status: statusReducer,
   setting: Setting,
   cards: CardsReducer,

@@ -1,7 +1,9 @@
 import axios from 'axios'
 
-const instance = axios.create({
-  baseURL: process.env.REACT_APP_FIREBASE_API + process.env.REACT_APP_FIREBASE_KEY
+export const register = axios.create({
+  baseURL: process.env.REACT_APP_FIREBASE_REGISTER_API + process.env.REACT_APP_FIREBASE_KEY
 })
 
-export default instance
+export const login = axios.create({
+  baseURL: process.env.REACT_APP_FIREBASE_LOGIN_API + process.env.REACT_APP_FIREBASE_KEY
+})

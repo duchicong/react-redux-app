@@ -3,13 +3,12 @@ import validate from 'validate.js'
 import { useSelector } from 'react-redux'
 import clsx from 'clsx'
 import {
-  Box,
   Button,
   colors,
   TextField
 } from '@material-ui/core'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
-import axios from '../../utils/authAPI'
+import { register as axios } from '../../utils/authAPI'
 import constraints from './constraintsRegiser'
 
 const MuiTextField = withStyles((theme) => ({
@@ -62,23 +61,6 @@ function Register () {
     })), 300)
   }, [])
 
-  const registerHandler = () => {
-    axios({
-      method: 'post',
-      data: { ...formState.values, returnSecureToken: true }
-    })
-      .then((res) => console.log(res))
-      .catch(err => console.log(err.response))
-      .finally(() => {
-        setFormState(prev => ({
-          ...prev,
-          touched: {},
-          values: null,
-          valid: false
-        }))
-      })
-  }
-
   const hasError = (fieldName) => !!(formState.errors[fieldName] && formState.touched[fieldName])
 
   const hasHelperText = (fieldName) => {
@@ -95,6 +77,32 @@ function Register () {
     }))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formState.values])
+
+
+  const registerHandler = () => {
+    axios({
+      method: 'post',
+      data: { ...formState.values, returnSecureToken: true }
+    })
+      .then((res) => console.log(res))
+      .catch(err => setFormState(prev => {
+        let errors = {}
+        const data = err.response.data.error
+        if (data.message.search('WEAK_PASSWORD') !== -1) errors = { password: data.message }
+        if (data.message.search('EMAIL_EXISTS') !== -1) errors = { email: data.message }
+        return {
+          ...prev,
+          errors: {
+            ...prev.errors,
+            ...errors
+          },
+          valid: false
+        }
+      }))
+      .finally(() => {
+        setFormState(prev => ({ ...prev, valid: false }))
+      })
+  }
 
   return (
     <div className={clsx("register-form", classes.root)}>
@@ -129,7 +137,7 @@ function Register () {
         color="primary"
         disabled={!formState.valid}
       >
-        {translation.createButton}
+        {translation.register.createButton}
       </MuiButton>
     </div>
   )

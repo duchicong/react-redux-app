@@ -57,7 +57,8 @@ const en = {
   login: {
     title: 'Login',
     loginButton: 'Login Now',
-    redirect: 'Register account at here?'
+    redirect: 'Register account at here?',
+    messageError: 'Password or email is incorrect'
   },
 
 }
