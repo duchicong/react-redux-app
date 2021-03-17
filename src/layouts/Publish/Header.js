@@ -24,12 +24,12 @@ import Brightness4Icon from '@material-ui/icons/Brightness4' // moon
 import TranslateIcon from '@material-ui/icons/Translate'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import PersonAddIcon from '@material-ui/icons/PersonAdd'
-import PersonIcon from '@material-ui/icons/Person'
 import logo from '../../assets/icons/logo.svg'
 import FoodsCart from './shared/FoodsCart'
 import {
   toggleMode,
-  handleChangeLanguage
+  handleChangeLanguage,
+  authLogout
 } from '../../actions'
 import { DialogAuthentication } from '../../components/Dialogs'
 
@@ -86,12 +86,16 @@ HideOnScroll.propTypes = {
 export default function HideAppBar(props) {
   const classes = withStyles()
   const dispatch = useDispatch()
-  const { translation, isLight, language } = useSelector(state => state.setting)
+  const { auth, setting } = useSelector(state => state)
+  const { translation, isLight, language } = setting
+  const { isAuth } = auth
   const [state, setState] = useState({
     isSetting: false,
     isCart: false,
-    isSearch: false
+    isSearch: false,
+    isAuthDialog: false
   })
+
   const Icon = isLight ? Brightness7Icon : Brightness4Icon
   const appBarClassName = !isLight ? classes.MuiAppBarDark : ''
 
@@ -143,10 +147,15 @@ export default function HideAppBar(props) {
             >
               <Icon htmlColor="#fff"/>
             </IconButton>
-            <IconButton>
-              <PersonAddIcon htmlColor="#fff"/>
-              <PersonIcon htmlColor="#fff"/>
-            </IconButton>
+            {!isAuth ? (
+              <IconButton onClick={() => setState(prev => ({ ...prev, isAuthDialog: true }))}>
+                <PersonAddIcon htmlColor="#fff"/>
+              </IconButton>
+            ) : (
+              <Button onClick={() => dispatch(authLogout())} color="inherit" variant="outlined">
+                {translation.logout}
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
       </HideOnScroll>
@@ -154,7 +163,10 @@ export default function HideAppBar(props) {
       <Container>
         {props.children}
       </Container>
-      <DialogAuthentication open={true}/>
+      <DialogAuthentication
+        open={state.isAuthDialog}
+        onClose={() => setState(prev => ({ ...prev, isAuthDialog: false }))}
+      />
     </React.Fragment>
   )
 }

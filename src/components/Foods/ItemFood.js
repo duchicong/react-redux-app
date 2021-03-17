@@ -1,5 +1,6 @@
 import React from 'react'
 import Proptypes from 'prop-types'
+import cookie from 'js-cookie'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -28,8 +29,8 @@ function ItemFood({ name, description, price, id }) {
   const dispatch = useDispatch()
   const { translation } = useSelector(state => state.setting)
   const deleteProduct = () => {
-    axios.delete(`/foods/${id}.json/`)
-      .then(res => dispatch(deleteFood(id)))
+    axios.delete(`/foods/${id}.json?auth=${cookie.get('token')}`)
+      .then(() => dispatch(deleteFood(id)))
   }
   return (
     <div className="item-foods">

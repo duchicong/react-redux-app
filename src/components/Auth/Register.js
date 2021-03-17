@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function Register () {
+function Register ({ redirectHanlder }) {
   const { translation } = useSelector(state => state.setting)
   const classes = useStyles()
   const typingRef = useRef()
@@ -84,7 +84,7 @@ function Register () {
       method: 'post',
       data: { ...formState.values, returnSecureToken: true }
     })
-      .then((res) => console.log(res))
+      .then(() => redirectHanlder())
       .catch(err => setFormState(prev => {
         let errors = {}
         const data = err.response.data.error
@@ -143,4 +143,4 @@ function Register () {
   )
 }
 
-export default Register
+export default React.memo(Register)

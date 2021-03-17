@@ -1,14 +1,26 @@
 import {
   AUTH_FAILED,
   AUTH_START,
-  AUTH_SUCCESS
-} from '../actions/actionTypes' 
+  AUTH_SUCCESS,
+  AUTH_LOGOUT
+} from '../actions/actionTypes'
+import cookie from 'js-cookie'
 
-const initialState = {
+let initialState = {
   token: null,
   localId: null,
   error: null,
-  loading: false
+  loading: false,
+  isAuth: false
+}
+
+if (cookie.get('token') && cookie.get('localId')) {
+  initialState = {
+    ...initialState,
+    token: cookie.get('token'),
+    localId: cookie.get('localId'),
+    isAuth: true
+  }
 }
 
 function authReducer(state = initialState, { type, payload }) {
@@ -33,6 +45,9 @@ function authReducer(state = initialState, { type, payload }) {
         error: payload,
         loading: false
       }
+    case AUTH_LOGOUT:
+      window.location.reload()
+      return state
     default:
       return state
   }

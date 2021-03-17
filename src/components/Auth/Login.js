@@ -75,8 +75,11 @@ function Login () {
       method: 'post',
       data: { ...formState.values, returnSecureToken: true }
     })
-      .then((res) => dispatch(loginSuccess(res.data)))
-      .catch(err => {
+      .then((res) => {
+        dispatch(loginSuccess(res.data))
+        window.location.reload()
+      })
+      .catch(() => {
         setFormState(prev => ({
           ...prev,
           valid: false,
@@ -153,4 +156,4 @@ function Login () {
   )
 }
 
-export default Login
+export default React.memo(Login)

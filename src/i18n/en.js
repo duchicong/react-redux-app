@@ -7,6 +7,7 @@ const en = {
   copyright: '&copy; Copyright Cong Du',
   light: 'Light',
   dark: 'Dark',
+  logout: 'Logout',
   language: {
     en: 'English',
     vi: 'Vietnamese'

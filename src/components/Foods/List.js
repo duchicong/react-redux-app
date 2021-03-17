@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import cookie from 'js-cookie'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Typography,
@@ -25,7 +26,7 @@ const List = () => {
   const {foods} = useSelector(state => state)
 
   useEffect(() => {
-    axios.get('/foods.json')
+    axios.get(`/foods.json?auth=${cookie.get('token')}`)
       .then(res => dispatch(fetchFood(Object.entries(res.data).map(([key, value]) => ({ ...value, id: key })))))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

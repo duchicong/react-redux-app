@@ -2,8 +2,10 @@ import {
   REGISTER_ACCOUNT,
   AUTH_FAILED,
   AUTH_START,
-  AUTH_SUCCESS
-} from './actionTypes' 
+  AUTH_SUCCESS,
+  AUTH_LOGOUT
+} from './actionTypes'
+import cookie from 'js-cookie'
 
 export function regiser(data) {
   return {
@@ -26,8 +28,18 @@ export function loginFailed(data) {
 }
 
 export function loginSuccess(data) {
+  cookie.set('token', data.idToken)
+  cookie.set('localId', data.localId)
   return {
     type: AUTH_SUCCESS,
     payload: data
+  }
+}
+
+export function authLogout() {
+  cookie.remove('token')
+  cookie.remove('localId')
+  return {
+    type: AUTH_LOGOUT
   }
 }
