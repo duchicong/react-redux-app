@@ -62,6 +62,18 @@ const en = {
     messageError: 'Password or email is incorrect'
   },
 
+  card: {
+    label: {
+      name: 'Name',
+      price: 'Price',
+      quantily: 'Quantily',
+      total: 'Total',
+      delete: 'Delete'
+    },
+    empty: 'The cart is empty!',
+    payment: 'Go to payment'
+  }
+
 }
 
 export default en

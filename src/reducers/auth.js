@@ -23,6 +23,18 @@ if (cookie.get('token') && cookie.get('localId')) {
   }
 }
 
+setTimeout(() => {
+  cookie.remove('token')
+  cookie.remove('localId')
+  initialState = {
+    token: null,
+    localId: null,
+    error: null,
+    loading: false,
+    isAuth: false
+  }
+}, 1000*60*24*60);
+
 function authReducer(state = initialState, { type, payload }) {
   switch (type) {
     case AUTH_START:
@@ -49,7 +61,7 @@ function authReducer(state = initialState, { type, payload }) {
       window.location.reload()
       return state
     default:
-      return state
+      return initialState
   }
 }
 

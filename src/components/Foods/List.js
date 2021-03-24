@@ -26,7 +26,7 @@ const List = () => {
   const {foods} = useSelector(state => state)
 
   useEffect(() => {
-    axios.get(`/foods.json?auth=${cookie.get('token')}`)
+    axios.get('/foods.json')
       .then(res => dispatch(fetchFood(Object.entries(res.data).map(([key, value]) => ({ ...value, id: key })))))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -34,13 +34,7 @@ const List = () => {
     <div className="list-foods">
       <Typography variant="h6">List Food</Typography>
       <Paper variant="outlined" className={classes.MuiPaper}>
-        {foods.length !== 0 && foods.map((element, index) => <ItemFood
-          key={index}
-          id={element.id}
-          name={element.name}
-          description={element.description}
-          price={element.price}
-        />)}
+        {foods.length !== 0 && foods.map((element, index) => <ItemFood food={element} key={index} />)}
       </Paper>
     </div>
   )

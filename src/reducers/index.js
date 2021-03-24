@@ -10,7 +10,7 @@ const allReducers = combineReducers({
   auth: authReducer,
   status: statusReducer,
   setting: Setting,
-  cards: CardsReducer,
+  cardStore: CardsReducer,
   foods: FoodsReducer,
   users: UsersReducer
 })
