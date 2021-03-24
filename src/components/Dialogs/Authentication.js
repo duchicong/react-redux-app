@@ -31,7 +31,7 @@ export default function DialogAuthentication ({ open, onClose, onClick, ...rest 
       title={isRegister ? translation.register.title : translation.login.title}
       {...rest}
     >
-      {isRegister ? <Register /> : <Login />}
+      {isRegister ? <Register redirectHanlder={() => setIsRegister(false)}/> : <Login closeDialog={onClose}/>}
       <Box
         component="span"
         className={classes.link}

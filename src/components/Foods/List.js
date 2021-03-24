@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import cookie from 'js-cookie'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Typography,
@@ -33,13 +34,7 @@ const List = () => {
     <div className="list-foods">
       <Typography variant="h6">List Food</Typography>
       <Paper variant="outlined" className={classes.MuiPaper}>
-        {foods.length !== 0 && foods.map((element, index) => <ItemFood
-          key={index}
-          id={element.id}
-          name={element.name}
-          description={element.description}
-          price={element.price}
-        />)}
+        {foods.length !== 0 && foods.map((element, index) => <ItemFood food={element} key={index} />)}
       </Paper>
     </div>
   )

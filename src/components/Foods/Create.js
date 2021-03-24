@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import validate from 'validate.js'
+import cookie from 'js-cookie'
 import {
   TextField,
   Button,
@@ -73,7 +74,7 @@ const Create = () => {
   const createFoodHandler = () => {
     axios({
       method: 'post',
-      url: '/foods.json',
+      url: `/foods.json?auth=${cookie.get('token')}`,
       data: formState.values
     })
       .then(() => dispatch(addFood(formState.values)))

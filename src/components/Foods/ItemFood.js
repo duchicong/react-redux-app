@@ -1,5 +1,6 @@
 import React from 'react'
 import Proptypes from 'prop-types'
+import cookie from 'js-cookie'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -8,6 +9,7 @@ import {
   Button
 } from '@material-ui/core'
 import { deleteFood } from '../../actions/foods'
+import { addToCard } from '../../actions/cards'
 import axios from '../../utils/API'
 
 const useStyles = makeStyles((theme) => ({
@@ -23,13 +25,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function ItemFood({ name, description, price, id }) {
+function ItemFood({ food }) {
+  const { name, description, price, id } = food
   const classes = useStyles()
   const dispatch = useDispatch()
   const { translation } = useSelector(state => state.setting)
   const deleteProduct = () => {
-    axios.delete(`/foods/${id}.json/`)
-      .then(res => dispatch(deleteFood(id)))
+    axios.delete(`/foods/${id}.json?auth=${cookie.get('token')}`)
+      .then(() => dispatch(deleteFood(id)))
   }
   return (
     <div className="item-foods">
@@ -37,7 +40,7 @@ function ItemFood({ name, description, price, id }) {
         <Typography variant="h6">{name}</Typography>
         <Typography variant="body1">{description}</Typography>
         <Typography variant="h6">{price}</Typography>
-        <Button variant="contained" color="primary">{translation.addToCard}</Button>
+        <Button variant="contained" color="primary" onClick={() => dispatch(addToCard(food))}>{translation.addToCard}</Button>
         <Button variant="contained" color="secondary" onClick={deleteProduct}>{translation.deleteProduct}</Button>
       </Card>
     </div>

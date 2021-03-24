@@ -15,18 +15,63 @@ const vi = {
 
   // Define label
   createFood: 'Thêm mới thực đơn',
+  addToCard: 'Thêm vào giỏ',
+  deleteProduct: 'Xoá',
 
-  // Define Feild
-  fields: {
+  // Define Feilds
+  labelFields: {
     name: 'Nhập tên',
     description: 'Nhập miêu tả',
     price: 'Nhập giá'
   },
 
+  // Define placeholders
+  placeholders: {
+    name: 'Nhập tên',
+    description: 'Nhập miêu tả',
+    price: 'Nhập giá',
+    email: 'Email',
+    password: 'Mật khẩu'
+  },
+
   // Define button label
   buttons: {
-    submit: 'Đồng ý'
+    submit: 'Đồng ý',
+    close: 'Đóng',
+    ok: 'Ok'
+  },
+
+  // define validate
+  validate: {
+    presence: {
+      message: 'là bắt buộc!'
+    }
+  },
+
+  register: {
+    title: 'Tạo nhanh một tài khoản!',
+    createButton: 'Đồng ý',
+    redirect: 'Bạn đã có tài khoản, đến đăng nhập?'
+  },
+  
+  login: {
+    title: 'Đăng nhập',
+    loginButton: 'Đăng nhập ngay',
+    redirect: 'Đăng ký tài khoản ở đây?',
+    messageError: 'Mật khẩu hoặc email không chính xác'
+  },
+  
+  card: {
+    label: {
+      name: 'Tên',
+      price: 'Giá',
+      quantily: 'Số lượng',
+      total: 'Tổng tiền'
+    },
+    empty: 'Giỏ hàng trống!',
+    payment: 'Đi tới thanh toán'
   }
+
 }
 
 export default vi

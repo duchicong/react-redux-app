@@ -7,6 +7,7 @@ const en = {
   copyright: '&copy; Copyright Cong Du',
   light: 'Light',
   dark: 'Dark',
+  logout: 'Logout',
   language: {
     en: 'English',
     vi: 'Vietnamese'
@@ -57,8 +58,21 @@ const en = {
   login: {
     title: 'Login',
     loginButton: 'Login Now',
-    redirect: 'Register account at here?'
+    redirect: 'Register account at here?',
+    messageError: 'Password or email is incorrect'
   },
+
+  card: {
+    label: {
+      name: 'Name',
+      price: 'Price',
+      quantily: 'Quantily',
+      total: 'Total',
+      delete: 'Delete'
+    },
+    empty: 'The cart is empty!',
+    payment: 'Go to payment'
+  }
 
 }
 
